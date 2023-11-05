@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather forecast</title>
+    <link href="{{ url_for('static', path='/css/layout.css') }}" rel="stylesheet" type="text/css"/>
+</head>
+<script>
+function keyCode(event) {
+  var x = event.keyCode;
+  if (x == 27) {
+    for(let modal_id = 1; modal_id <= 7; modal_id++){
+        document.getElementById("" + modal_id).style.display='none';
+    }
+  }
+}
+</script>
+<div class="home_title">
+    <h1 id="home_title" style="text-align:center; font-family: Arial; ">GB World Weather Forecast</h1>
+</div>
+<div id="sidediv_right" style="height:100%; background-image: url({{url_for('static', path='img/raining.gif')}})">
+</div>
+<div id="sidediv_left" style="height:100%; background-image: url({{url_for('static', path='img/raining.gif')}})">
+</div>
+<body onkeydown="keyCode(event)" style="background-image: url({{url_for('static', path='img/weather.jpg')}})">
+    {% for modal_id, full_date in zip(weather_modal_box_id, seven_day_forecast_full_dates) %}
+    <div id="{{modal_id}}" class="main_modal_background" style="display: none; background-color: rgba(74, 73, 72, 0.4); position: fixed; z-index: 100; bottom: 0px; right: 0px; height: 150%; width: 100%;">
+        <div id="myModal" class="modal" style="position: relative; top: 35%; height: 800px;">
+            <div class="modal-content">
+            <span class="close" style="cursor: pointer; font-size: 50px;" onclick="document.getElementById('{{modal_id}}').style.display='none'">&times;</span>
+            <h2 style="text-align: center; font-family: Arial;">Weather forecast breakdown in your area ({{full_date}})</h2>
+            <div class="detailed_weather_info_bg1">
+                <div class="detailed_weather_info_bg2">
+                    {% for time, temperature, precipitation, weather_type in zip(seven_day_forecast_details_time[modal_id - 1], seven_day_forecast_details_temperature[modal_id - 1], seven_day_forecast_details_precipitation[modal_id-1], seven_day_forecast_details_weather_type[modal_id - 1]) %}
+                    <div class="seven_day_weather_details">
+                        <p><strong>{{time}}</strong></p>
+                        <img style="width: 50px; height: 50px;" src="static/img/{{weather_type}}.png">
+                        <p><strong>{{temperature}}°C</strong></p>
+                        <img style="width: 50px; height: 50px; padding-top: 25px;" src="static/img/raindrops.png">
+                        <p style="color: blue; font-size: 20px;"><strong>{{precipitation}}%</strong></p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <div>
+        <div class="top_navigation_bar">
+            <ul>
+                <li><a class="active" href="#home">Home</a></li>
+                <li><a href="#news">News</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#about">About</a></li>
+              </ul>
+        </div>
+        <div id="mySidenav" class="sidenav">
+            <a href="#">Maps</a>
+            <a href="#">Graphs</a>
+            <a href="#">TimeGAN</a>
+            <a href="#">Contact</a>
+        </div>
+        <div class="home_content">
+            <h2 style="font-family: Arial; color: white">Weather forecast in your area today:</h2>
+            <div class="main_content" style="display: flex;">
+                <div style="width: 40%;">
+                    <div class="current_location_weather">
+                        <h2 style="font-family: Arial;">{{current_location}}</h2>
+                    </div>
+                    <div class="current_weather_information">
+                        <div class="current_weather_image_box">
+                            <h3 style="text-align: center; font-family: Arial;">{{full_month}}</h3>
+                            <img class = "current_weather_image" src='static/img/{{current_weather_type}}.png'>
+                        </div>
+                        <div class="current_weather_details" onclick="document.getElementById('1').style.display='block'">
+                            <p style="font-size: 20px; text-align: center;"><strong>{{time}}</strong></p>
+                            <p style="font-size: 20px;">Temperature: {{temperature}}°C</p>
+                            <p style="font-size: 20px;">Cloudiness: {{cloudiness}}%</p>
+                            <p style="font-size: 17px;">Pressure: {{pressure}}hPa</p>
+                            <p style="font-size: 17px;">Humidity: {{humidity}}%</p>
+                            <p style="font-size: 17px;">Visibility: {{visibility}}m</p>
+                            <p style="font-size: 17px;">Wind speed: {{windspeed}}km/h</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 60%;">
+                    <div class="seven_day_forecast">
+                        <h1 style="position: relative; display: inline-block; -webkit-animation: rainbow 5s infinite; text-shadow: 2px 2px 4px #000000;">7 day forecast in your area</h1>
+                        <img style="position: relative; display: inline-block; width: 50px; height: 50px; top: 10px;" src="static/img/shining_sun.gif">
+                    </div>
+                    <div class="seven_day_list_div">
+                        {% for min_temperature, max_temperature, half_month, weather_type_forecast, modal_id in forecast_info %}
+                        <div id="today" onclick="document.getElementById('{{modal_id}}').style.display='block'">
+                            <div style="height: 40px;">
+                                <h3 style="font-family: Arial; width: 50%; position: relative; display: inline-block">{{half_month}}</h3>
+                                <img class="forecast_weather_image" src="static/img/{{weather_type_forecast}}.png">
+                            </div>
+                            <p>Max temp: <strong style="color: red">{{max_temperature}}°C</strong></p>
+                            <p>Min temp: <strong style="color: blue">{{min_temperature}}°C</strong></p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

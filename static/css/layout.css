@@ -1,0 +1,307 @@
+.sidenav {
+    height: 59%; /* 100% Full-height */
+    width: 200px; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    bottom: 0; /* Stay at the top */
+    left: 0;
+    background-color: #330033;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+  }
+
+  #sidediv_right {
+    height: 59%; /* 100% Full-height */
+    width: 400px; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    bottom: 0; /* Stay at the top */
+    right: 0;
+    background-color: #111; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    border: 1px solid white
+  }
+
+  #sidediv_left {
+    height: 59%; /* 100% Full-height */
+    width: 400px; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    bottom: 0; /* Stay at the top */
+    left: 0;
+    background-color: #111; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    border: 1px solid white
+  }
+  
+  /* The navigation menu links */
+  .sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: white;
+    display: block;
+    border: 1px solid white;
+    font-family: 'Arial';
+  }
+  
+  /* When you mouse over the navigation links, change their color */
+  .sidenav a:hover {
+    color: #d147a3;
+  }
+
+  .home_content{
+    height: 65%; /* 100% Full-height */
+    width: 85%; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    bottom: 0; /* Stay at the top */
+    right: 0;
+    background-color: #111; /* Black*/
+    padding-left: 25px;
+    padding-top: 20px;
+    border: 1px solid white;
+  }
+
+  .top_navigation_bar{
+    height: 76%; /* 100% Full-height */
+    width: 100%; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    bottom: 0; /* Stay at the top */
+    right: 0;
+    padding-left: 25px;
+    padding-top: 20px;
+    color: white;
+    font-family: 'Arial';
+  }
+
+  body{
+    width:100%;
+    height:100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 10px;
+    overflow: hidden;
+    background-color: #330033
+  }
+  
+  li {
+    position: relative;
+    top: 0;
+    left: 30%;
+    float: left;
+    transform: none;
+    border-right: 1px solid #bbb;
+    border-left: 1px solid #bbb;
+    color: white;
+  }
+  
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 45px;
+    text-decoration: none;
+  }
+  
+  li a:hover {
+    background-color: #111;
+    color:#d147a3;
+  }
+
+.current_location_weather{
+  border-radius: 5px;
+  border: 1px black solid;
+  width: 100%;
+  text-align: center;
+  color: white;
+  background-color: #330033;
+}
+
+.current_weather_information{
+  border-radius: 5px;
+  background-color: white;
+  border: 1px black solid;
+  width: 100%;
+  height: 300px;
+}
+
+.current_weather_image_box{
+  position: relative;
+  width: 50%;
+  height: 100%;
+  bottom: 15px;
+  display: inline-block;
+  background-color: white;
+}
+
+.current_weather_image{
+  position: relative;
+  left: 10%;
+  width: 200px;
+  height: 200px;
+  cursor: pointer;
+}
+
+.current_weather_details{
+  position: relative;
+  border-left: 1px black solid;
+  width: 49%;
+  display: inline-block;
+  height: 100%;
+  cursor: pointer;
+}
+
+.current_weather_details:hover{
+  background-color: #888;
+  color: white;
+}
+
+p{
+  font-family: Arial;
+}
+
+.seven_day_forecast{
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 20%;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: "Arial";
+  text-align: center;
+}
+
+.seven_day_list_div{
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+  height: 50%;
+  background-color: #006080;
+  border-radius: 25px;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.seven_day_weather_details{
+  background-color: white; 
+  height: 90%; 
+  width: 100px; 
+  position: relative; 
+  display: inline-block;
+  text-align: center;
+}
+
+#today{
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid;
+  height: 70%;
+  position: relative;
+  top: 20px;
+  width: 200px;
+  display: inline-block;
+}
+
+#today:hover{
+  background-color: grey;
+  color: white;
+}
+
+.forecast_weather_image{
+  height: 60px; 
+  width: 60px;
+  position: relative;
+  display: inline-block;
+  float: right;
+}
+
+#home_title{
+  color: white;
+  position: relative;
+  top: 10px;
+}
+
+.home_title{
+  background-color:#330033;
+  color: white;
+  height: 100px;
+  border: 1px solid white;
+  top: 0px;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  height: 80%;
+}
+
+.detailed_weather_info_bg1{
+  width: 100%;
+  height: 70%;
+  background-color: #006080;
+  border-radius: 25px;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.detailed_weather_info_bg2{
+  width: 90%;
+  height: 80%;
+  background-color: #339abc;
+  border-radius: 25px;
+  overflow: auto;
+  white-space: nowrap;
+  position: relative;
+  top: 10%;
+  left: 5%;
+}
+
+@-webkit-keyframes rainbow{
+  0%{color: orange;}  
+  10%{color: purple;} 
+  20%{color: red;}
+  30%{color: CadetBlue;}
+  40%{color: yellow;}
+  50%{color: coral;}
+  60%{color: green;}
+  70%{color: cyan;}
+  80%{color: DeepPink;}
+  90%{color: DodgerBlue;}
+  100%{color: orange;}
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 20px;
+  background-color: white;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: cyan; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(14, 126, 126); 
+}
