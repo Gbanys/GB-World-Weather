@@ -1,5 +1,5 @@
 .sidenav {
-    height: 59%; /* 100% Full-height */
+    height: 65%; /* 100% Full-height */
     width: 200px; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
     z-index: 1; /* Stay on top */
@@ -137,11 +137,11 @@
 
 .current_weather_image_box{
   position: relative;
-  width: 50%;
+  width: 51%;
   height: 100%;
-  bottom: 15px;
+  bottom: 0;
   display: inline-block;
-  background-color: white;
+  overflow: hidden;
 }
 
 .current_weather_image{
@@ -149,21 +149,18 @@
   left: 10%;
   width: 200px;
   height: 200px;
+  display: inline-block;
   cursor: pointer;
 }
 
 .current_weather_details{
   position: relative;
   border-left: 1px black solid;
-  width: 49%;
+  width: 40%;
   display: inline-block;
   height: 100%;
   cursor: pointer;
-}
-
-.current_weather_details:hover{
-  background-color: #888;
-  color: white;
+  overflow: hidden;
 }
 
 p{
@@ -299,6 +296,8 @@ p{
 ::-webkit-scrollbar-thumb {
   background: cyan; 
   border-radius: 10px;
+  position: absolute;
+  left: 0px;
 }
 
 /* Handle on hover */
