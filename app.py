@@ -82,5 +82,10 @@ async def return_home_page(request: Request):
             }
     )
 
+@app.get("/maps")
+async def return_maps_page(request: Request):
+    print("Hello")
+    return templates.TemplateResponse("maps.html", context={'request' : request})
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

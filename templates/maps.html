@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Weather forecast</title>
+        <link href="{{ url_for('static', path='/css/maps.css') }}" rel="stylesheet" type="text/css"/>
+    </head>
+    <body style="color: white; background-image: url({{url_for('static', path='img/sparkling_stars.gif')}})">
+        <div class="top_navigation_bar">
+            <ul id="menu_options">
+                <li><a class="active" href="#home">Home</a></li>
+                <li><a href="#news">News</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#about">About</a></li>
+              </ul>
+              <div style="position: relative; display: inline-block; left: 800px;">
+                <h3 style="position: relative; display: inline-block; bottom: 15px;">World Weather</h3>
+                <img src="static/img/menu_logo.gif" width="50px;" height="50px;" style="position: relative; display: inline-block;"></li>
+              </div>
+        </div>
+        <div class="container">
+            <h2>Global Temperature Anomalies from 1880 to 2021</h2>
+            <p><strong>Released:</strong>Thursday, January 13th, 2022</p>
+            <p><strong>Updated:</strong>Tuesday, October 24th, 2023 at 12:19AM</p>
+            <div style="margin-left: auto; margin-right: auto; width: 70%;">
+                <video width="600" height="400" controls>
+                    <source src="https://svs.gsfc.nasa.gov/vis/a000000/a004900/a004964/2021GISStempF-5yrAvg.mp4" type="video/mp4">
+                </video>
+            </div>
+            <br>
+            <div class="credits">
+                <h3 style="text-align: center;">Credits</h3>
+                Visualizer:
+                <ul>
+                    <li>Lori Perkins (NASA/GSFC) [Lead]</li>
+                </ul>
+
+                Writers:
+                <ul>
+                    <li>Sofie Bates (KBR Wyle Services, LLC) [Lead]</li>
+                    <li>Roberto Molar-Candanosa (KBR Wyle Services, LLC)</li>
+                </ul>
+            
+                Scientists:
+                <ul>
+                    <li>Gavin A. Schmidt (NASA/GSFC GISS) [Lead]</li>
+                    <li>Reto A. Ruedy (SIGMA Space Partners, LLC.)</li>
+                    <li>Robert B Schmunk (SIGMA Space Partners, LLC.)</li>
+                </ul>
+
+                Producers:
+                <ul>
+                    <li>Kathryn Mersmann (KBR Wyle Services, LLC) [Lead]</li>
+                    <li>Katie Jepson (KBR Wyle Services, LLC) [Lead]</li>
+                </ul>
+                
+                Public affairs officers:
+                <ul>
+                    <li>Jacob Richmond (NASA/GSFC)</li>
+                    <li>Peter H. Jacobs (NASA/GSFC)</li>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>
