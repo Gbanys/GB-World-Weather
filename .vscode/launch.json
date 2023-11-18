@@ -11,6 +11,14 @@
             "module": "validation.main_validation",
             "justMyCode": true,
             "env" : {"PYTHONPATH" : "${workspaceRoot}"}
+        },
+        {
+            "name": "Python: Module",
+            "type": "python",
+            "request": "launch",
+            "module": "research.weather_research",
+            "justMyCode": true,
+            "env" : {"PYTHONPATH" : "${workspaceRoot}"}
         }
     ]
 }

@@ -1,33 +1,28 @@
 import pandas as pd
 import requests
+from weather_event_names import day_weather_event_names, night_weather_event_names
 
-def get_weather_type_for_each_row(row):
-        if row['cloudcover'] > 90 and row['precipitation_probability'] > 75:
-            return "heavy rain"
-        elif row['cloudcover'] > 90 and row['precipitation_probability'] > 50:
-            return "rain"
-        elif row['cloudcover'] > 50 and row['precipitation_probability'] > 50:
-            return "cloudy with rain"
-        elif row['cloudcover'] > 90 and row['precipitation_probability'] < 50:
-            return "overcast"
-        elif row['cloudcover'] < 20:
-            return "sunny"
-        elif row['cloudcover'] > 50 and row['precipitation_probability'] < 50:
-            return "cloudy"
-        else:
-            return "cloudy"
+def get_weather_type_for_each_row(row) -> str:
+    
+    if row['is_day'] == 1:
+        return day_weather_event_names[str(row['weather_code'])]
+    else:
+        return night_weather_event_names[str(row['weather_code'])]
 
 
-def get_weather_types_for_date(weather_dataframe: pd.DataFrame):
-    cloudcover = weather_dataframe.groupby('date')['cloudcover'].mean()
-    precipitation_probability = weather_dataframe.groupby('date')['precipitation_probability'].mean()
-    grouped_dataframe = pd.DataFrame({'cloudcover' : cloudcover, 'precipitation_probability': precipitation_probability}, index=cloudcover.index.tolist())
+def get_weather_types_for_date(weather_dataframe: pd.DataFrame, average_weather_type: bool) -> pd.Series:
+    weather_code = weather_dataframe.groupby('date')['weather_code'].agg(pd.Series.mode)
+    is_day = weather_dataframe.groupby('date')['is_day'].agg(pd.Series.mode)
+    grouped_dataframe = pd.DataFrame({'weather_code' : weather_code, 'is_day' : is_day}, index=weather_code.index.tolist())
+
+    if average_weather_type:
+        grouped_dataframe = grouped_dataframe.assign(is_day=1)
 
     grouped_dataframe['weather_type'] = grouped_dataframe.apply(get_weather_type_for_each_row, axis=1)
     return grouped_dataframe['weather_type']
 
 
-def get_weather_types_for_time(weather_dataframe: pd.DataFrame):
+def get_weather_types_for_time(weather_dataframe: pd.DataFrame) -> pd.Series:
     return weather_dataframe.apply(get_weather_type_for_each_row, axis=1)
 
 

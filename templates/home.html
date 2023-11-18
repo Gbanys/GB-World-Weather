@@ -91,7 +91,7 @@ function keyCode(event) {
                     </div>
                     <div class="seven_day_list_div">
                         {% for min_temperature, max_temperature, half_month, weather_type_forecast, modal_id in forecast_info %}
-                        <div id="today" onclick="document.getElementById('{{modal_id}}').style.display='block'">
+                        <div id="today" onclick="document.getElementById('{{modal_id}}').style.display='block'" title="Click to view more details">
                             <div style="height: 40px;">
                                 <h3 style="font-family: Arial; width: 50%; position: relative; display: inline-block">{{half_month}}</h3>
                                 <img class="forecast_weather_image" src="static/img/{{weather_type_forecast}}.png">

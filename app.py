@@ -32,13 +32,15 @@ templates = Jinja2Templates(directory="templates")
 async def return_home_page(request: Request):
 
     details_from_ip_address = get_details_from_ip_address()
-    weather_data = get_weather_data_from_api(details_from_ip_address['Lat'], details_from_ip_address['Lng'], ['temperature_2m','windspeed_10m','relativehumidity_2m','pressure_msl','cloudcover','visibility', 'precipitation_probability'])
+    weather_data = get_weather_data_from_api(details_from_ip_address['Lat'], details_from_ip_address['Lng'], ['temperature_2m','windspeed_10m','relativehumidity_2m','pressure_msl','cloudcover','visibility', 'precipitation_probability', 'weather_code', 'is_day'])
 
     weather_dataframe = pd.DataFrame(
         {'datetime': weather_data['hourly']['time'], 
          'temperature': weather_data['hourly']['temperature_2m'], 
          'precipitation_probability': weather_data['hourly']['precipitation_probability'],
          'cloudcover' : weather_data['hourly']['cloudcover'],
+         'weather_code' : weather_data['hourly']['weather_code'],
+         'is_day' : weather_data['hourly']['is_day']
          }, 
          index=weather_data['hourly']['time']
     )
@@ -50,7 +52,7 @@ async def return_home_page(request: Request):
         day=weather_dataframe.datetime.apply(lambda x: x.split("T")[0].split("-")[2])
     )
 
-    weather_types = get_weather_types_for_date(weather_dataframe)
+    weather_types = get_weather_types_for_date(weather_dataframe, True)
 
     minimum_temperatures = weather_dataframe.groupby('date')['temperature'].min().tolist()
     maximum_temperatures = weather_dataframe.groupby('date')['temperature'].max().tolist()
@@ -98,7 +100,7 @@ async def return_graphs_page(request: Request):
 
     details_from_ip_address = get_details_from_ip_address()
     city = details_from_ip_address['Location'].split(",")[0]
-    
+
     weather_data = get_weather_data_from_api(details_from_ip_address['Lat'], details_from_ip_address['Lng'], ['temperature_2m'])
     graph_url = plot_weather_graph(weather_data, 'temperature_2m', city)
 
