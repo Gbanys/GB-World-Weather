@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Weather forecast</title>
+        <link href="{{ url_for('static', path='/css/graphs.css') }}" rel="stylesheet" type="text/css"/>
+    </head>
+    <body style="background-image: url({{url_for('static', path='img/snowing.gif')}})">
+        <div class="top_navigation_bar">
+            <ul id="menu_options">
+                <li><a class="active" href="#home">Home</a></li>
+                <li><a href="#news">News</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#about">About</a></li>
+              </ul>
+              <div style="position: relative; display: inline-block; left: 800px;">
+                <h3 style="position: relative; display: inline-block; bottom: 15px;">World Weather</h3>
+                <img src="static/img/menu_logo.gif" width="50px;" height="50px;" style="position: relative; display: inline-block;"></li>
+              </div>
+        </div>
+        {% if error_msg != "" %}
+            <div style="background-color: transparent; position: relative; top: 100px; width: 50%; text-align: center; font-family: Arial; border: 1px solid white; color: white; margin-left: auto; margin-right: auto; border-radius: 15px;">
+                <p style="position: relative; display: inline-block;">{{error_msg}}</p>
+                <img style="position: relative; display: inline-block; top: 5px;" src="static/img/error_icon.png" height="20px" width="20px">
+            </div>
+        {% endif %}
+        <div class="container">
+            <br>
+            <h2 style="padding: 20px; padding-top: 70px;">Graphs and weather diagrams</h2>
+            <p style="padding: 20px;">Choose the type of metrics you want to visualize and choose any location.</p>
+            <form method="POST">
+                <form autocomplete="off">
+                    <div>
+                        <div style="position:relative; display: inline-block; padding-right: 20px; padding-left: 20px;">
+                            <p><strong>Location: </strong></p>
+                        </div>
+                        <div style="position:relative; display: inline-block; padding-right: 170px;" class="autocomplete" style="width:300px;">
+                            <input name="city" id="cityInput" style="color: white; background-color: #006080; font-family: Arial; border-radius: 10px; height: 30px; width: 200px;" type="text" name="myCity" placeholder="City" required="required">
+                        </div>
+                        <label style="position:relative; display: inline-block; padding-right: 20px; padding-left: 20px;" for="metrics">Metric:</label>
+                        <select name="metric_type" style="position:relative; display: inline-block; padding-right: 20px; padding-left: 20px; color: white; background-color: #006080; font-family: Arial; border-radius: 10px; height: 30px; width: 200px;" name="metrics" id="metrics">
+                            <option value="temperature_2m">Temperature</option>
+                            <option value="cloud_cover">Cloudiness</option>
+                            <option value="wind_speed_10m">Wind Speed</option>
+                            <option value="precipitation">Precipitation</option>
+                        </select>
+                    </div>
+                    <div style="padding-top: 20px;">
+                        <div style="padding-right: 20px; padding-left: 20px; padding-bottom: 20px;">
+                            <p><strong>Time (Optional) </strong></p>
+                            <i>If you would like to insert start and end times please use YYYY-MM-dd format:</i>
+                        </div>
+                        <div style="position:relative; display: inline-block; padding-right: 20px; padding-left: 20px;">
+                            <p><strong>Start: </strong></p>
+                        </div>
+                        <div style="position:relative; display: inline-block; padding-right: 200px;" style="width:300px;">
+                            <input name="startTime" id="startTimeInput" style="color: white; background-color: #006080; font-family: Arial; border-radius: 10px; height: 30px; width: 200px;" type="text" name="startTime">
+                        </div>
+                        <div style="position:relative; display: inline-block; padding-right: 20px; padding-left: 20px;">
+                            <p><strong>End: </strong></p>
+                        </div>
+                        <div style="position:relative; display: inline-block;" style="width:300px;">
+                            <input name="endTime" id="endTimeInput" style="color: white; background-color: #006080; font-family: Arial; border-radius: 10px; height: 30px; width: 200px;" type="text" name="endTime">
+                        </div>
+                    </div>
+                    <div style="padding: 20px; padding-bottom: 5px; text-align: center;">
+                        <input id="generate_button" style="padding: 10px; border-radius: 15px; width: 200px; background-color: rgb(7, 158, 168); color: white;" type="submit" value="Generate graph">
+                    </div>
+                  </form>
+            </form>
+            <div>
+                <img style="width: 100%; padding-top: 50px;" src={{graph_url}}>
+            </div>
+        </div>
+    </body>
+    <script>
+    function autocomplete(inp, arr) {
+    var currentFocus;
+    inp.addEventListener("input", function(e) {
+        var a, b, i, val = this.value;
+        closeAllLists();
+        if (!val) { return false;}
+        currentFocus = -1;
+        a = document.createElement("DIV");
+        a.setAttribute("id", this.id + "autocomplete-list");
+        a.setAttribute("class", "autocomplete-items");
+        this.parentNode.appendChild(a);
+        for (i = 0; i < arr.length; i++) {
+            if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+            b = document.createElement("DIV");
+            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+            b.innerHTML += arr[i].substr(val.length);
+            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+            b.addEventListener("click", function(e) {
+                inp.value = this.getElementsByTagName("input")[0].value;
+                closeAllLists();
+            });
+            a.appendChild(b);
+            }
+        }
+    });
+    inp.addEventListener("keydown", function(e) {
+        var x = document.getElementById(this.id + "autocomplete-list");
+        if (x) x = x.getElementsByTagName("div");
+        if (e.keyCode == 40) {
+            currentFocus++;
+            addActive(x);
+        } else if (e.keyCode == 38) { //up
+            currentFocus--;
+            addActive(x);
+        } else if (e.keyCode == 13) {
+            e.preventDefault();
+            if (currentFocus > -1) {
+            if (x) x[currentFocus].click();
+            }
+        }
+    });
+    function addActive(x) {
+        if (!x) return false;
+        removeActive(x);
+        if (currentFocus >= x.length) currentFocus = 0;
+        if (currentFocus < 0) currentFocus = (x.length - 1);
+        x[currentFocus].classList.add("autocomplete-active");
+    }
+    function removeActive(x) {
+        for (var i = 0; i < x.length; i++) {
+        x[i].classList.remove("autocomplete-active");
+        }
+    }
+    function closeAllLists(elmnt) {
+        var x = document.getElementsByClassName("autocomplete-items");
+        for (var i = 0; i < x.length; i++) {
+        if (elmnt != x[i] && elmnt != inp) {
+            x[i].parentNode.removeChild(x[i]);
+        }
+        }
+    }
+    document.addEventListener("click", function (e) {
+        closeAllLists(e.target);
+    });
+    }
+
+    var cities = {{ cities|safe }};
+    autocomplete(document.getElementById("cityInput"), cities);
+
+    </script>
+</html>

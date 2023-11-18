@@ -51,13 +51,13 @@ function keyCode(event) {
             <ul>
                 <li><a class="active" href="#home">Home</a></li>
                 <li><a href="#news">News</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#contact">World Weather</a></li>
                 <li><a href="#about">About</a></li>
               </ul>
         </div>
         <div id="mySidenav" class="sidenav">
             <a href="{{ url_for('return_maps_page') }}">Maps</a>
-            <a href="#">Graphs</a>
+            <a href="{{ url_for('return_graphs_page') }}">Graphs</a>
             <a href="#">TimeGAN</a>
             <a href="#">Weather Alarm</a>
         </div>

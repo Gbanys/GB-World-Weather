@@ -187,6 +187,7 @@ p{
   border-radius: 25px;
   overflow: auto;
   white-space: nowrap;
+  direction: ltr;
 }
 
 .seven_day_weather_details{
@@ -212,6 +213,9 @@ p{
 #today:hover{
   background-color: grey;
   color: white;
+  transform: scale(1.1); 
+  z-index: 100;
+  overflow: visible;
 }
 
 .forecast_weather_image{

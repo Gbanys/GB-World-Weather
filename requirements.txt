@@ -6,3 +6,7 @@ jinja2
 ip2geotools
 babel
 iso8601
+python-multipart
+plotly
+nbformat
+kaleido

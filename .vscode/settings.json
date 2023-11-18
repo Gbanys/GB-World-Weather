@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": "/home/repositories/GB-World-Weather",
+    "terminal.integrated.env.linux": {"PYTHONPATH": "${workspaceFolder}"}
+}

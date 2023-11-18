@@ -1,14 +1,22 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from datetime import datetime
 import uvicorn
 from pathlib import Path
 import requests
+import json
+import time
 import pandas as pd
+import plotly.graph_objects as go
 from ip2geotools.databases.noncommercial import DbIpCity
+from data_access.location_finder.location_finder import get_details_from_ip_address
 from date_parser import parseFullMonth, parseHalfMonth
-from weather_api import get_weather_types_for_date, get_weather_types_for_time, get_weather_type_for_each_row
+from weather_api import get_weather_types_for_date, get_weather_types_for_time, get_weather_type_for_each_row, get_weather_data_from_api
+from data_access.city_data.city_data import get_cities_in_json_format, get_city_latitude_and_longitude_coordinates
+from dash import Dash, dcc, html, Input, Output
+from validation.main_validation import check_if_graph_data_is_valid
+from plotting.plots import plot_weather_graph
 
 app = FastAPI()
 
@@ -23,13 +31,8 @@ templates = Jinja2Templates(directory="templates")
 @app.get("/")
 async def return_home_page(request: Request):
 
-    ip = requests.get('https://api.ipify.org').content.decode('utf8')
-    res = DbIpCity.get(ip, api_key="free")
-    details_from_ip_address = {"Location" : f'{res.city}, {res.region}, {res.country}', "Lat" : res.latitude, "Lng" : res.longitude}
-    weather_request = requests.get(f"https://api.open-meteo.com/v1/forecast?latitude={details_from_ip_address['Lat']}&longitude={details_from_ip_address['Lng']}&current=temperature_2m,windspeed_10m,relativehumidity_2m,pressure_msl\
-,cloudcover,visibility,precipitation_probability&hourly=temperature_2m,relativehumidity_2m,windspeed_10m,precipitation_probability,cloudcover")
-    weather_data = weather_request.json()
-    weather_data['current']
+    details_from_ip_address = get_details_from_ip_address()
+    weather_data = get_weather_data_from_api(details_from_ip_address['Lat'], details_from_ip_address['Lng'], ['temperature_2m','windspeed_10m','relativehumidity_2m','pressure_msl','cloudcover','visibility', 'precipitation_probability'])
 
     weather_dataframe = pd.DataFrame(
         {'datetime': weather_data['hourly']['time'], 
@@ -40,9 +43,12 @@ async def return_home_page(request: Request):
          index=weather_data['hourly']['time']
     )
 
-    weather_dataframe['date'] = weather_dataframe.datetime.apply(lambda x: x.split("T")[0])
-    weather_dataframe['time'] = weather_dataframe.datetime.apply(lambda x: x.split("T")[1])
-    weather_dataframe['weather_type'] = get_weather_types_for_time(weather_dataframe)
+    weather_dataframe = weather_dataframe.assign(
+        date=weather_dataframe.datetime.apply(lambda x: x.split("T")[0]), 
+        time=weather_dataframe.datetime.apply(lambda x: x.split("T")[1]),
+        weather_type=get_weather_types_for_time(weather_dataframe),
+        day=weather_dataframe.datetime.apply(lambda x: x.split("T")[0].split("-")[2])
+    )
 
     weather_types = get_weather_types_for_date(weather_dataframe)
 
@@ -53,7 +59,6 @@ async def return_home_page(request: Request):
     current_date = weather_data['current']['time'].split("T")[0]
     all_half_months = [parseHalfMonth(datetime.strftime(datetime.strptime(current_date, "%Y-%m-%d") + pd.Timedelta(f'{day} day'), "%Y-%m-%d")) for day in range(0, 7)]
 
-    weather_dataframe['day'] = weather_dataframe['date'].apply(lambda x: x.split("-")[2])
     seven_day_forecast_weather_details = [weather_dataframe.groupby("day")[metric].apply(list).to_dict() for metric in ['time', 'weather_type', 'temperature', 'precipitation_probability']]
 
     return templates.TemplateResponse(
@@ -84,8 +89,65 @@ async def return_home_page(request: Request):
 
 @app.get("/maps")
 async def return_maps_page(request: Request):
-    print("Hello")
     return templates.TemplateResponse("maps.html", context={'request' : request})
+
+@app.get("/graphs")
+async def return_graphs_page(request: Request):
+
+    cities, cities_lng, cities_lat = get_cities_in_json_format()
+
+    details_from_ip_address = get_details_from_ip_address()
+    city = details_from_ip_address['Location'].split(",")[0]
+    
+    weather_data = get_weather_data_from_api(details_from_ip_address['Lat'], details_from_ip_address['Lng'], ['temperature_2m'])
+    graph_url = plot_weather_graph(weather_data, 'temperature_2m', city)
+
+    return templates.TemplateResponse("graphs.html", context={
+        'request' : request,
+        'cities' : cities,
+        'error_msg' : '',
+        'graph_url': graph_url,
+        'zip' : zip
+        }
+    )
+
+@app.post("/graphs")
+async def handle_graph_data(
+    request: Request,
+    startTime: str = Form(None),
+    endTime: str = Form(None),
+    city: str = Form(...),
+    metric_type: str = Form(...),
+):
+    
+    cities, cities_lng, cities_lat = get_cities_in_json_format()
+    
+    error_msg = check_if_graph_data_is_valid(city, startTime, endTime)
+    if error_msg != "":
+        return templates.TemplateResponse("graphs.html", context={"request": request, "error_msg" : error_msg, "cities" : cities})
+
+    city_latitude, city_longitude = get_city_latitude_and_longitude_coordinates(city)
+        
+    if startTime is not None and endTime is None:
+        endTime = datetime.strftime(datetime.now(), "%Y-%m-%d")
+    
+    if startTime is not None and endTime is not None:
+        startTime = datetime.strptime(startTime, "%Y-%m-%d")
+        endTime = datetime.strptime(endTime, "%Y-%m-%d")
+
+    weather_data = get_weather_data_from_api(city_latitude, city_longitude, [metric_type])
+
+    graph_url = plot_weather_graph(weather_data, metric_type, city)
+    
+    return templates.TemplateResponse("graphs.html", context={
+        'request' : request,
+        'cities' : cities,
+        'error_msg' : '',
+        'graph_url' : graph_url,
+        'zip' : zip
+        }
+    )
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
