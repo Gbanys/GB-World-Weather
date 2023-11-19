@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <title>World weather</title>
+        <link href="{{ url_for('static', path='/css/europe_weather.css') }}" rel="stylesheet" type="text/css"/>
+    </head>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const scrollImages = document.querySelector("#card_holder_body");
+        const scrollLength = scrollImages.scrollWidth - scrollImages.clientWidth;
+        const leftButton = document.querySelector("#arrow_left");
+        const rightButton = document.querySelector("#arrow_right");
+
+        function checkScroll() {
+            const currentScroll = scrollImages.scrollLeft;
+            if (currentScroll === 0) {
+            leftButton.setAttribute("disabled", "true");
+            rightButton.removeAttribute("disabled");
+            } else if (currentScroll === scrollLength) {
+            rightButton.setAttribute("disabled", "true");
+            leftButton.removeAttribute("disabled");
+            } else {
+            leftButton.removeAttribute("disabled");
+            rightButton.removeAttribute("disabled");
+            }
+        }
+
+        scrollImages.addEventListener("scroll", checkScroll);
+        window.addEventListener("resize", checkScroll);
+        checkScroll();
+
+        function leftScroll() {
+            scrollImages.scrollBy({
+            left: -200,
+            behavior: "smooth"
+            });
+        }
+
+        function rightScroll() {
+            scrollImages.scrollBy({
+            left: 200,
+            behavior: "smooth"
+            });
+        }
+
+        leftButton.addEventListener("click", leftScroll);
+        rightButton.addEventListener("click", rightScroll);
+    });
+    </script>
+    <body>
+        <div class="header" style="background-image: url({{url_for('static', path='img/ocean.gif')}})">
+            <div style="background-color: transparent; margin-left: auto; margin-right: auto; position: relative; top: 5%; height: 100%;">
+                <div style="background-color: transparent; position: relative; display: inline-block; width: 100px; height: 50%; text-align: center; bottom: 50%;">
+                    <i id="arrow_left" onclick="scrollRight()"></i>
+                </div>
+                <div id='card_holder_body'>
+                    {% for city, temperature in european_weather %}
+                    <div class="card_body" style="background-image: url({{url_for('static', path='img/underwater.jpg')}}); z-index: 2; position: relative; display: inline-block;">
+                        <h3>{{city}}</h3>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div style="background-color: transparent; position: relative; display: inline-block; width: 100px; height: 50%; text-align: center; bottom: 50%;">
+                    <i id="arrow_right" onclick="scrollRight()"></i>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

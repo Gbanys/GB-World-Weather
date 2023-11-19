@@ -17,7 +17,7 @@ def plot_weather_graph(weather_data: dict, metric_type: str, city: str) -> str:
     )
     
     time_now = datetime.strftime(datetime.now(), "%Y-%m-%d")
-    graph_url = f"static/img/weather_graph{time_now}.png"
+    graph_url = f"../static/img/weather_graph{time_now}.png"
 
     weather_graph_directories = glob("../static/img/weather_graph*")
 

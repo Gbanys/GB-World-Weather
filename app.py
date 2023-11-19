@@ -12,7 +12,7 @@ import plotly.graph_objects as go
 from ip2geotools.databases.noncommercial import DbIpCity
 from data_access.location_finder.location_finder import get_details_from_ip_address
 from date_parser import parseFullMonth, parseHalfMonth
-from weather_api import get_weather_types_for_date, get_weather_types_for_time, get_weather_type_for_each_row, get_weather_data_from_api
+from weather_api import get_weather_types_for_date, get_weather_types_for_time, get_weather_type_for_each_row, get_weather_data_from_api, get_current_weather_from_european_cities
 from data_access.city_data.city_data import get_cities_in_json_format, get_city_latitude_and_longitude_coordinates
 from dash import Dash, dcc, html, Input, Output
 from validation.main_validation import check_if_graph_data_is_valid
@@ -26,7 +26,9 @@ app.mount(
     name="static",
 )
 
-templates = Jinja2Templates(directory="templates")
+BASE_DIR = Path(__file__).resolve().parent
+
+templates = Jinja2Templates(directory=str(Path(BASE_DIR, 'templates')))
 
 @app.get("/")
 async def return_home_page(request: Request):
@@ -147,6 +149,17 @@ async def handle_graph_data(
         'error_msg' : '',
         'graph_url' : graph_url,
         'zip' : zip
+        }
+    )
+
+@app.get("/europe_weather")
+async def return_europe_weather_page(request: Request):
+    european_weather = get_current_weather_from_european_cities(['temperature_2m', 'weather_code', 'is_day', 'precipitation_probability'])
+    list_of_temperatures = [weather_dict['temperature_2m'] for weather_dict in european_weather.values()]
+    print(list_of_temperatures)
+    return templates.TemplateResponse("europe_weather.html", context={
+        'request' : request,
+        'european_weather' : zip(european_weather.keys(), list_of_temperatures)
         }
     )
 
