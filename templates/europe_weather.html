@@ -46,21 +46,105 @@
         rightButton.addEventListener("click", rightScroll);
     });
     </script>
-    <body>
+    <body style="background-color: black;">
         <div class="header" style="background-image: url({{url_for('static', path='img/ocean.gif')}})">
             <div style="background-color: transparent; margin-left: auto; margin-right: auto; position: relative; top: 5%; height: 100%;">
                 <div style="background-color: transparent; position: relative; display: inline-block; width: 100px; height: 50%; text-align: center; bottom: 50%;">
                     <i id="arrow_left" onclick="scrollRight()"></i>
                 </div>
                 <div id='card_holder_body'>
-                    {% for city, temperature in european_weather %}
+                    {% for city, temperature, max_temperature, min_temperature, precipitation_probability in european_weather %}
                     <div class="card_body" style="background-image: url({{url_for('static', path='img/underwater.jpg')}}); z-index: 2; position: relative; display: inline-block;">
-                        <h3>{{city}}</h3>
+                        <h3 style="padding-left: 10px;">{{city}}</h3>
+                        <h1 style="position:relative; font-size: 50px; padding-top: 10px; vertical-align:middle; text-align: center;">{{temperature}}°C</h1>
+                        <p style="padding-left: 10px;">Max temperature: <strong style="color: red;">{{max_temperature}}°C<i style="color: red;">&#127777;</i></strong></p>
+                        <p style="padding-left: 10px;">Min temperature: <strong style="color: cyan;">{{min_temperature}}°C<i style="color: cyan;">&#127777;</i></strong></p>
+                        <p style="padding-left: 10px;">Precipitation: <strong style="color: cyan;">{{precipitation_probability}}%</strong><i>&#128167;</i></p>
                     </div>
                     {% endfor %}
                 </div>
                 <div style="background-color: transparent; position: relative; display: inline-block; width: 100px; height: 50%; text-align: center; bottom: 50%;">
                     <i id="arrow_right" onclick="scrollRight()"></i>
+                </div>
+            </div>
+        </div>
+        <div class="main_content_div">
+            <div class="europe_weather_map">
+                <img style="width: 100%; padding-top: 50px;" src={{map_url}}>
+            </div>
+            <div class="weather_key_information">
+                <h3 style="text-align: center;">Key weather information</h3>
+                <div class="mini_information_div">
+                    <div class="circle">
+                        <div class="temperature_circle">{{highest_temperature[1]}}°C</div>
+                    </div>
+                    <div class="mini_information">
+                        <h3>Highest temperature</h3>
+                        <p>{{highest_temperature[0]}}</p>
+                    </div>
+                </div>
+                <div class="mini_information_div">
+                    <div class="circle">
+                        <div class="temperature_circle">{{lowest_temperature[1]}}°C</div>
+                    </div>
+                    <div class="mini_information">
+                        <h3>Lowest temperature</h3>
+                        <p>{{lowest_temperature[0]}}</p>
+                    </div>
+                </div>
+                <div class="mini_information_div">
+                    <div class="circle">
+                        <div class="precipitation_circle" style="background: radial-gradient(closest-side, white 79%, transparent 80% 100%), conic-gradient(blue {{highest_precipitation[1]}}%, cyan 0);">{{highest_precipitation[1]}}%</div>
+                    </div>
+                    <div class="mini_information">
+                        <h3>Highest precipitation</h3>
+                        <p>{{highest_precipitation[0]}}</p>
+                    </div>
+                </div>
+                <div class="mini_information_div">
+                    <div class="circle">
+                        <div class="precipitation_circle" style="background: radial-gradient(closest-side, white 79%, transparent 80% 100%), conic-gradient(blue {{lowest_precipitation[1]}}%, cyan 0);">{{lowest_precipitation[1]}}%</div>
+                    </div>
+                    <div class="mini_information">
+                        <h3>Lowest precipitation</h3>
+                        <p>{{lowest_precipitation[0]}}</p>
+                    </div>
+                </div>
+                <div class="mini_information_div">
+                    <div class="circle">
+                        <div class="cloudiness_circle" style="background: radial-gradient(closest-side, white 79%, transparent 80% 100%), conic-gradient(green {{highest_cloudiness[1]}}%, lime 0);">{{highest_cloudiness[1]}}%</div>
+                    </div>
+                    <div class="mini_information">
+                        <h3>Highest cloudcover</h3>
+                        <p>{{highest_cloudiness[0]}}</p>
+                    </div>
+                </div>
+                <div class="mini_information_div">
+                    <div class="circle">
+                        <div class="cloudiness_circle" style="background: radial-gradient(closest-side, white 79%, transparent 80% 100%), conic-gradient(green {{lowest_cloudiness[1]}}%, lime 0);">{{lowest_cloudiness[1]}}%</div>
+                    </div>
+                    <div class="mini_information">
+                        <h3>Lowest cloudcover</h3>
+                        <p>{{lowest_cloudiness[0]}}</p>
+                    </div>
+                </div>
+                <div class="mini_information_div">
+                    <div class="circle">
+                        <div class="humidity_circle" style="background: radial-gradient(closest-side, white 79%, transparent 80% 100%), conic-gradient(purple {{highest_humidity[1]}}%, pink 0);">{{highest_humidity[1]}}%</div>
+                    </div>
+                    <div class="mini_information">
+                        <h3>Highest humidity</h3>
+                        <p>{{highest_humidity[0]}}</p>
+                    </div>
+                </div>
+                <div class="mini_information_div">
+                    <div class="circle">
+                        <div class="humidity_circle" style="background: radial-gradient(closest-side, white 79%, transparent 80% 100%), conic-gradient(purple {{lowest_humidity[1]}}%, pink 0);">{{lowest_humidity[1]}}%</div>
+                    </div>
+                    <div class="mini_information">
+                        <h3>Lowest humidity</h3>
+                        <p>{{lowest_humidity[0]}}</p>
+                    </div>
                 </div>
             </div>
         </div>

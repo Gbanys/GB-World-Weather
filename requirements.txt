@@ -12,3 +12,4 @@ nbformat
 kaleido
 pymysql
 boto3
+dash

@@ -46,7 +46,7 @@ function keyCode(event) {
         </div>
     </div>
     {% endfor %}
-    <div>
+    <div style="height: 120%; width: 105%; top: 60px; right: 10px; background-color: green; z-index: 1; white-space: nowrap; overflow: hidden; position: relative;">
         <div class="top_navigation_bar">
             <ul>
                 <li><a class="active" href="#home">Home</a></li>
@@ -55,56 +55,58 @@ function keyCode(event) {
                 <li><a href="#about">About</a></li>
               </ul>
         </div>
-        <div id="mySidenav" class="sidenav">
-            <a href="{{ url_for('return_maps_page') }}">Maps</a>
-            <a href="{{ url_for('return_graphs_page') }}">Graphs</a>
-            <a href="#">TimeGAN</a>
-            <a href="#">Weather Alarm</a>
-        </div>
-        <div class="home_content">
-            <h2 id="current_weather_title" style="font-family: Arial; color: white; display: inline-block; position: relative; bottom: 20px;">Weather forecast in your area today: <img style="height:50px; width:50px; position: relative; top: 10px;" src="static/img/pinwheel.gif"></h2>
-            <div class="main_content" style="display: flex; position: relative; bottom: 20px;">
-                <div style="width: 40%; overflow: hidden;">
-                    <div class="current_location_weather">
-                        <h2 style="font-family: Arial;">{{current_location}}</h2>
-                    </div>
-                    <div class="current_weather_information">
-                        <div class="current_weather_image_box" onclick="document.getElementById('1').style.display='block'">
-                            <h3 style="text-align: center; font-family: Arial;">{{full_month}}</h3>
-                            <img class = "current_weather_image" src='static/img/{{current_weather_type}}.png'>
+        <div style="height: 700px; width: 100%; background-color: #330033; position: relative; display: block;">
+            <div id="mySidenav" class="sidenav" style="vertical-align: top;">
+                <a href="{{ url_for('return_maps_page') }}">Maps</a>
+                <a href="{{ url_for('return_graphs_page') }}">Graphs</a>
+                <a href="#">TimeGAN</a>
+                <a href="#">Weather Alarm</a>
+            </div>
+            <div class="home_content" style="vertical-align: top;">
+                <h2 id="current_weather_title" style="font-family: Arial; color: white; display: inline-block; position: relative; bottom: 20px;">Weather forecast in your area today: <img style="height:50px; width:50px; position: relative; top: 10px;" src="static/img/pinwheel.gif"></h2>
+                <div class="main_content" style="display: flex; position: relative; bottom: 20px;">
+                    <div style="width: 40%; overflow: hidden;">
+                        <div class="current_location_weather">
+                            <h2 style="font-family: Arial;">{{current_location}}</h2>
                         </div>
-                        <div class="current_weather_details" onclick="document.getElementById('1').style.display='block'">
-                            <p style="font-size: 20px; text-align: center;"><strong>{{time}}</strong></p>
-                            <p style="font-size: 20px;">Temperature: {{temperature}}°C</p>
-                            <p style="font-size: 20px;">Cloudiness: {{cloudiness}}%</p>
-                            <p style="font-size: 17px;">Pressure: {{pressure}}hPa</p>
-                            <p style="font-size: 17px;">Humidity: {{humidity}}%</p>
-                            <p style="font-size: 17px;">Visibility: {{visibility}}m</p>
-                            <p style="font-size: 17px;">Wind speed: {{windspeed}}km/h</p>
-                        </div>
-                    </div>
-                </div>
-                <div style="width: 60%; position: relative; bottom: 70px;">
-                    <div class="seven_day_forecast">
-                        <h1 style="position: relative; display: inline-block; -webkit-animation: rainbow 5s infinite; text-shadow: 2px 2px 4px #000000;">7 day forecast in your area</h1>
-                        <img style="position: relative; display: inline-block; width: 50px; height: 50px; top: 10px;" src="static/img/shining_sun.gif">
-                    </div>
-                    <div class="seven_day_list_div">
-                        {% for min_temperature, max_temperature, half_month, weather_type_forecast, modal_id in forecast_info %}
-                        <div id="today" onclick="document.getElementById('{{modal_id}}').style.display='block'" title="Click to view more details">
-                            <div style="height: 40px;">
-                                <h3 style="font-family: Arial; width: 50%; position: relative; display: inline-block">{{half_month}}</h3>
-                                <img class="forecast_weather_image" src="static/img/{{weather_type_forecast}}.png">
+                        <div class="current_weather_information">
+                            <div class="current_weather_image_box" onclick="document.getElementById('1').style.display='block'">
+                                <h3 style="text-align: center; font-family: Arial;">{{full_month}}</h3>
+                                <img class = "current_weather_image" src='static/img/{{current_weather_type}}.png'>
                             </div>
-                            <p>Max temp: <strong style="color: red">{{max_temperature}}°C</strong></p>
-                            <p>Min temp: <strong style="color: blue">{{min_temperature}}°C</strong></p>
+                            <div class="current_weather_details" onclick="document.getElementById('1').style.display='block'">
+                                <p style="font-size: 20px; text-align: center;"><strong>{{time}}</strong></p>
+                                <p style="font-size: 20px;">Temperature: {{temperature}}°C</p>
+                                <p style="font-size: 20px;">Cloudiness: {{cloudiness}}%</p>
+                                <p style="font-size: 17px;">Pressure: {{pressure}}hPa</p>
+                                <p style="font-size: 17px;">Humidity: {{humidity}}%</p>
+                                <p style="font-size: 17px;">Visibility: {{visibility}}m</p>
+                                <p style="font-size: 17px;">Wind speed: {{windspeed}}km/h</p>
+                            </div>
                         </div>
-                        {% endfor %}
                     </div>
-                    <div style="text-align: center; padding-top: 20px;">
-                        <h4 style="color:white; font-family: Arial;">Subscribe for weather alerts:</h5>
-                        <p style="color: white;">Create your own customizable weather alerts and get free notifications.</p>
-                        <button style="color: white; background-color: red; border-radius: 50px; height: 50px; width: 120px;"><strong>Subscribe now!</strong></button>
+                    <div style="width: 60%; padding-right: 30px; position: relative; bottom: 70px;">
+                        <div class="seven_day_forecast">
+                            <h1 style="position: relative; display: inline-block; -webkit-animation: rainbow 5s infinite; text-shadow: 2px 2px 4px #000000;">7 day forecast in your area</h1>
+                            <img style="position: relative; display: inline-block; width: 50px; height: 50px; top: 10px;" src="static/img/shining_sun.gif">
+                        </div>
+                        <div class="seven_day_list_div">
+                            {% for min_temperature, max_temperature, half_month, weather_type_forecast, modal_id in forecast_info %}
+                            <div id="today" onclick="document.getElementById('{{modal_id}}').style.display='block'" title="Click to view more details">
+                                <div style="height: 40px;">
+                                    <h3 style="font-family: Arial; width: 50%; position: relative; display: inline-block">{{half_month}}</h3>
+                                    <img class="forecast_weather_image" src="static/img/{{weather_type_forecast}}.png">
+                                </div>
+                                <p>Max temp: <strong style="color: red">{{max_temperature}}°C</strong></p>
+                                <p>Min temp: <strong style="color: blue">{{min_temperature}}°C</strong></p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div style="text-align: center; padding-top: 20px;">
+                            <h4 style="color:white; font-family: Arial;">Subscribe for weather alerts:</h4>
+                            <p style="color: white;">Create your own customizable weather alerts and get free notifications.</p>
+                            <button style="color: white; background-color: red; border-radius: 50px; height: 50px; width: 120px;"><strong>Subscribe now!</strong></button>
+                        </div>
                     </div>
                 </div>
             </div>

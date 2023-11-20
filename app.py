@@ -8,6 +8,7 @@ import requests
 import json
 import time
 import pandas as pd
+import numpy as np
 import plotly.graph_objects as go
 from ip2geotools.databases.noncommercial import DbIpCity
 from data_access.location_finder.location_finder import get_details_from_ip_address
@@ -16,7 +17,7 @@ from weather_api import get_weather_types_for_date, get_weather_types_for_time, 
 from data_access.city_data.city_data import get_cities_in_json_format, get_city_latitude_and_longitude_coordinates
 from dash import Dash, dcc, html, Input, Output
 from validation.main_validation import check_if_graph_data_is_valid
-from plotting.plots import plot_weather_graph
+from plotting.plots import plot_weather_graph, plot_europe_temperature_map
 
 app = FastAPI()
 
@@ -154,12 +155,34 @@ async def handle_graph_data(
 
 @app.get("/europe_weather")
 async def return_europe_weather_page(request: Request):
-    european_weather = get_current_weather_from_european_cities(['temperature_2m', 'weather_code', 'is_day', 'precipitation_probability'])
-    list_of_temperatures = [weather_dict['temperature_2m'] for weather_dict in european_weather.values()]
-    print(list_of_temperatures)
+    european_weather = get_current_weather_from_european_cities(['temperature_2m', 'weather_code', 'is_day', 'precipitation_probability', 'relative_humidity_2m', 'cloudcover'])
+    list_of_current_temperatures = [weather_dict['temperature_2m'] for weather_dict in european_weather.values()]
+    list_of_max_temperatures = [weather_dict['max_temperature'] for weather_dict in european_weather.values()]
+    list_of_min_temperatures = [weather_dict['min_temperature'] for weather_dict in european_weather.values()]
+    list_of_precipitation_probabilities = [weather_dict['precipitation_probability'] for weather_dict in european_weather.values()]
+    list_of_humidities = [weather_dict['humidity'] for weather_dict in european_weather.values()]
+    list_of_cloudiness = [weather_dict['cloudiness'] for weather_dict in european_weather.values()]
+
+    map_url = plot_europe_temperature_map(european_weather)
+
     return templates.TemplateResponse("europe_weather.html", context={
         'request' : request,
-        'european_weather' : zip(european_weather.keys(), list_of_temperatures)
+        'european_weather' : zip(
+            european_weather.keys(), 
+            list_of_current_temperatures, 
+            list_of_max_temperatures, 
+            list_of_min_temperatures,
+            list_of_precipitation_probabilities,
+            ),
+        'map_url' : map_url,
+        'highest_temperature' : [list(european_weather.keys())[np.array(list_of_current_temperatures).argmax()], max(list_of_current_temperatures)],
+        'lowest_temperature' : [list(european_weather.keys())[np.array(list_of_current_temperatures).argmin()], min(list_of_current_temperatures)],
+        'highest_precipitation' : [list(european_weather.keys())[np.array(list_of_precipitation_probabilities).argmax()], max(list_of_precipitation_probabilities)],
+        'lowest_precipitation' : [list(european_weather.keys())[np.array(list_of_precipitation_probabilities).argmin()], min(list_of_precipitation_probabilities)],
+        'highest_cloudiness' : [list(european_weather.keys())[np.array(list_of_cloudiness).argmax()], max(list_of_cloudiness)],
+        'lowest_cloudiness' : [list(european_weather.keys())[np.array(list_of_cloudiness).argmin()], min(list_of_cloudiness)],
+        'highest_humidity' : [list(european_weather.keys())[np.array(list_of_humidities).argmax()], max(list_of_humidities)],
+        'lowest_humidity' : [list(european_weather.keys())[np.array(list_of_humidities).argmin()], min(list_of_humidities)],
         }
     )
 

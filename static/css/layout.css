@@ -1,13 +1,11 @@
 .sidenav {
-    height: 65%; /* 100% Full-height */
-    width: 200px; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
+    height: 100%; /* 100% Full-height */
+    width: 15%; /* 0 width - change this with JavaScript */
+    position: relative; /* Stay in place */
+    display: inline-block;
     z-index: 1; /* Stay on top */
-    bottom: 0; /* Stay at the top */
-    left: 0;
     background-color: #330033;
     overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 60px from the top */
   }
 
   #sidediv_right {
@@ -20,7 +18,7 @@
     background-color: #111; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
-    border: 1px solid white
+    border: 1px solid white;
   }
 
   #sidediv_left {
@@ -33,7 +31,7 @@
     background-color: #111; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
-    border: 1px solid white
+    border: 1px solid white;
   }
   
   /* The navigation menu links */
@@ -53,27 +51,23 @@
   }
 
   .home_content{
-    height: 65%; /* 100% Full-height */
+    height: 100%; /* 100% Full-height */
     width: 85%; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
+    position: relative; /* Stay in place */
+    display: inline-block;
     z-index: 1; /* Stay on top */
-    bottom: 0; /* Stay at the top */
-    right: 0;
     background-color: #111; /* Black*/
     padding-left: 25px;
-    padding-top: 20px;
+    padding-top: 40px;
     border: 1px solid white;
   }
 
   .top_navigation_bar{
-    height: 76%; /* 100% Full-height */
+    height: 120%; /* 100% Full-height */
     width: 100%; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
+    position: relative; /* Stay in place */
+    display: block;
     z-index: 1; /* Stay on top */
-    bottom: 0; /* Stay at the top */
-    right: 0;
-    padding-left: 25px;
-    padding-top: 20px;
     color: white;
     font-family: 'Arial';
   }
