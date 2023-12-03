@@ -154,3 +154,38 @@
     display: inline-block;
     padding-top: 20px;
 }
+
+.top_navigation_bar{
+    height: 10%; /* 100% Full-height */
+    width: 100%; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 100; /* Stay on top */
+    top: 0; /* Stay at the top */
+    right: 0;
+    padding-left: 25px;
+    padding-top: 20px;
+    color: white;
+    background-color: green;
+    font-family: 'Arial';
+    background-color: #330033;
+    border-bottom: 2px white solid;
+    overflow: hidden;
+  }
+
+#menu_options{
+    position: relative;
+    bottom: 20px;
+    display: inline-block;
+}
+
+#menu_options li{
+    padding-right: 40px;
+    position: relative;
+    display: inline-block;
+    color: white;
+}
+
+#menu_options li a{
+    text-decoration: none;
+    color: white;
+}

@@ -4,18 +4,12 @@ from fastapi.staticfiles import StaticFiles
 from datetime import datetime
 import uvicorn
 from pathlib import Path
-import requests
-import json
-import time
 import pandas as pd
 import numpy as np
-import plotly.graph_objects as go
-from ip2geotools.databases.noncommercial import DbIpCity
 from data_access.location_finder.location_finder import get_details_from_ip_address
 from date_parser import parseFullMonth, parseHalfMonth
 from weather_api import get_weather_types_for_date, get_weather_types_for_time, get_weather_type_for_each_row, get_weather_data_from_api, get_current_weather_from_european_cities
 from data_access.city_data.city_data import get_cities_in_json_format, get_city_latitude_and_longitude_coordinates
-from dash import Dash, dcc, html, Input, Output
 from validation.main_validation import check_if_graph_data_is_valid
 from plotting.plots import plot_weather_graph, plot_europe_temperature_map
 

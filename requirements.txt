@@ -13,3 +13,4 @@ kaleido
 pymysql
 boto3
 dash
+scikit-learn

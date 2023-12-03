@@ -7,12 +7,12 @@
     <body style="background-image: url({{url_for('static', path='img/snowing.gif')}})">
         <div class="top_navigation_bar">
             <ul id="menu_options">
-                <li><a class="active" href="#home">Home</a></li>
+                <li><a class="active" href="{{ url_for('return_home_page')}}">Home</a></li>
                 <li><a href="#news">News</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="{{ url_for('return_europe_weather_page')}}">Europe weather</a></li>
                 <li><a href="#about">About</a></li>
               </ul>
-              <div style="position: relative; display: inline-block; left: 800px;">
+              <div style="position: relative; display: inline-block; margin-left: 55%;">
                 <h3 style="position: relative; display: inline-block; bottom: 15px;">World Weather</h3>
                 <img src="static/img/menu_logo.gif" width="50px;" height="50px;" style="position: relative; display: inline-block;"></li>
               </div>
@@ -30,36 +30,46 @@
             <form method="POST">
                 <form autocomplete="off">
                     <div>
-                        <div style="position:relative; display: inline-block; padding-right: 20px; padding-left: 20px;">
-                            <p><strong>Location: </strong></p>
+                        <div style="position: relative; display: inline-block;">
+                            <div style="position:relative; display: inline-block; padding-right: 20px; padding-left: 20px;">
+                                <p><strong>Location: </strong></p>
+                            </div>
+                            <div style="position:relative; display: inline-block;" class="autocomplete" style="width:300px;">
+                                <input name="city" id="cityInput" style="color: white; background-color: #006080; font-family: Arial; border-radius: 10px; height: 30px; width: 200px;" type="text" name="myCity" placeholder="City" required="required">
+                            </div>
                         </div>
-                        <div style="position:relative; display: inline-block; padding-right: 170px;" class="autocomplete" style="width:300px;">
-                            <input name="city" id="cityInput" style="color: white; background-color: #006080; font-family: Arial; border-radius: 10px; height: 30px; width: 200px;" type="text" name="myCity" placeholder="City" required="required">
+                        <div style="position: relative; display: inline-block; margin-left: 20%;">
+                            <label style="position:relative; display: inline-block; padding-right: 20px; padding-left: 20px;" for="metrics">Metric:</label>
+                            <select name="metric_type" style="position:relative; display: inline-block; padding-right: 20px; padding-left: 20px; color: white; background-color: #006080; font-family: Arial; border-radius: 10px; height: 30px; width: 200px;" name="metrics" id="metrics">
+                                <option value="temperature_2m">Temperature</option>
+                                <option value="cloud_cover">Cloudiness</option>
+                                <option value="wind_speed_10m">Wind Speed</option>
+                                <option value="precipitation">Precipitation</option>
+                            </select>
                         </div>
-                        <label style="position:relative; display: inline-block; padding-right: 20px; padding-left: 20px;" for="metrics">Metric:</label>
-                        <select name="metric_type" style="position:relative; display: inline-block; padding-right: 20px; padding-left: 20px; color: white; background-color: #006080; font-family: Arial; border-radius: 10px; height: 30px; width: 200px;" name="metrics" id="metrics">
-                            <option value="temperature_2m">Temperature</option>
-                            <option value="cloud_cover">Cloudiness</option>
-                            <option value="wind_speed_10m">Wind Speed</option>
-                            <option value="precipitation">Precipitation</option>
-                        </select>
                     </div>
                     <div style="padding-top: 20px;">
                         <div style="padding-right: 20px; padding-left: 20px; padding-bottom: 20px;">
                             <p><strong>Time (Optional) </strong></p>
                             <i>If you would like to insert start and end times please use YYYY-MM-dd format:</i>
                         </div>
-                        <div style="position:relative; display: inline-block; padding-right: 20px; padding-left: 20px;">
-                            <p><strong>Start: </strong></p>
-                        </div>
-                        <div style="position:relative; display: inline-block; padding-right: 200px;" style="width:300px;">
-                            <input name="startTime" id="startTimeInput" style="color: white; background-color: #006080; font-family: Arial; border-radius: 10px; height: 30px; width: 200px;" type="text" name="startTime">
-                        </div>
-                        <div style="position:relative; display: inline-block; padding-right: 20px; padding-left: 20px;">
-                            <p><strong>End: </strong></p>
-                        </div>
-                        <div style="position:relative; display: inline-block;" style="width:300px;">
-                            <input name="endTime" id="endTimeInput" style="color: white; background-color: #006080; font-family: Arial; border-radius: 10px; height: 30px; width: 200px;" type="text" name="endTime">
+                        <div>
+                            <div style="position: relative; display: inline-block;">
+                                <div style="position:relative; display: inline-block; padding-right: 20px; padding-left: 20px;">
+                                    <p><strong>Start: </strong></p>
+                                </div>
+                                <div style="position:relative; display: inline-block;" style="width:300px;">
+                                    <input name="startTime" id="startTimeInput" style="color: white; background-color: #006080; font-family: Arial; border-radius: 10px; height: 30px; width: 200px;" type="text" name="startTime">
+                                </div>
+                            </div>
+                            <div style="position: relative; display: inline-block; margin-left: 20%;">
+                                <div style="position:relative; display: inline-block; padding-right: 20px; padding-left: 20px;">
+                                    <p><strong>End: </strong></p>
+                                </div>
+                                <div style="position:relative; display: inline-block;" style="width:300px;">
+                                    <input name="endTime" id="endTimeInput" style="color: white; background-color: #006080; font-family: Arial; border-radius: 10px; height: 30px; width: 200px;" type="text" name="endTime">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div style="padding: 20px; padding-bottom: 5px; text-align: center;">
