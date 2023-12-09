@@ -1,0 +1,18 @@
+language: generic
+services:
+  - docker
+
+deploy:
+  provider: elasticbeanstalk
+  region: eu-west-2
+  app: "gb_world_weather_forecast"
+  env: "Gbworldweatherforecast-env"
+
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
+
+  bucket_name: weather-forecast-app-bucket
+
+  bucket_path: "docker"
+  on:
+    branch: master
