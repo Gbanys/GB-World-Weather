@@ -1,11 +1,11 @@
 import unittest
 import pandas as pd
-from weather_alarms import retrieve_required_messages_and_phone_numbers
+from database_service.src.weather_alarms import retrieve_required_messages_and_phone_numbers
 from unittest.mock import patch
 
 class TestWeatherAlarmService(unittest.TestCase):
 
-    @patch('weather_api.get_weather_data_from_api')
+    @patch('data_access.weather_api.weather_api.get_weather_data_from_api')
     def test_retrieve_weather_events_from_one_subscriber(self, mock_weather_api):
 
         mock_weather_api.get_weather_data_from_api.return_value = {
@@ -37,7 +37,7 @@ class TestWeatherAlarmService(unittest.TestCase):
         self.assertEqual(expected_result, actual_result)
 
 
-    @patch('weather_api.get_weather_data_from_api')
+    @patch('data_access.weather_api.weather_api.get_weather_data_from_api')
     def test_retrieve_weather_events_from_multiple_subscribers(self, mock_weather_api):
 
         mock_weather_api.get_weather_data_from_api.return_value = {
@@ -75,7 +75,7 @@ class TestWeatherAlarmService(unittest.TestCase):
         self.assertEqual(expected_result, actual_result)
 
 
-    @patch('weather_api.get_weather_data_from_api')
+    @patch('data_access.weather_api.weather_api.get_weather_data_from_api')
     def test_retrieve_metrics_from_one_subscriber(self, mock_weather_api):
 
         mock_weather_api.get_weather_data_from_api.return_value = {
@@ -108,7 +108,7 @@ class TestWeatherAlarmService(unittest.TestCase):
         self.assertEqual(expected_result, actual_result)
 
 
-    @patch('weather_api.get_weather_data_from_api')
+    @patch('data_access.weather_api.weather_api.get_weather_data_from_api')
     def test_retrieve_metrics_from_multiple_subscriber(self, mock_weather_api):
 
         mock_weather_api.get_weather_data_from_api.return_value = {

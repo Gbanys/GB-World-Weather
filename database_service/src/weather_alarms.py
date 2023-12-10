@@ -1,7 +1,7 @@
-from db_connect import connect_to_amazon_rds
+from database_service.src.db_connect import connect_to_amazon_rds
 from data_access.city_data.city_data import get_city_latitude_and_longitude_coordinates
-from weather_api import get_weather_data_from_api
-from weather_event_names import day_weather_event_names, night_weather_event_names
+from data_access.weather_api.weather_api import get_weather_data_from_api
+from names.weather_event_names import day_weather_event_names, night_weather_event_names
 import pandas as pd
 from datetime import datetime
 

@@ -8,20 +8,20 @@ import pandas as pd
 import numpy as np
 from data_access.location_finder.location_finder import get_details_from_ip_address
 from date_parser import parseFullMonth, parseHalfMonth
-from weather_api import get_weather_types_for_date, get_weather_types_for_time, get_weather_type_for_each_row, get_weather_data_from_api, get_current_weather_from_european_cities
+from data_access.weather_api.weather_api import get_weather_types_for_date, get_weather_types_for_time, get_weather_type_for_each_row, get_weather_data_from_api, get_current_weather_from_european_cities
 from data_access.city_data.city_data import get_cities_in_json_format, get_city_latitude_and_longitude_coordinates
-from validation.main_validation import check_if_graph_data_is_valid
-from plotting.plots import plot_weather_graph, plot_europe_temperature_map
+from app.src.validation.main_validation import check_if_graph_data_is_valid
+from app.src.plotting.plots import plot_weather_graph, plot_europe_temperature_map
 
 app = FastAPI()
 
 app.mount(
     "/static",
-    StaticFiles(directory=Path(__file__).parent.parent.absolute() / "GB-World-Weather" / "static"),
+    StaticFiles(directory=Path(__file__).parent.parent.absolute() / "GB-World-Weather" / "app" / "src" / "static"),
     name="static",
 )
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(__file__).resolve().parent / "app" / "src"
 
 templates = Jinja2Templates(directory=str(Path(BASE_DIR, 'templates')))
 

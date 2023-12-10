@@ -4,6 +4,7 @@ import os
 from datetime import datetime
 from glob import glob
 from mpl_toolkits.basemap import Basemap
+from pathlib import Path
 
 def plot_weather_graph(weather_data: dict, metric_type: str, city: str) -> str:
 
@@ -19,7 +20,7 @@ def plot_weather_graph(weather_data: dict, metric_type: str, city: str) -> str:
     )
     
     time_now = datetime.strftime(datetime.now(), "%Y-%m-%d")
-    graph_url = f"static/img/weather_graph{time_now}.png"
+    graph_url = f"{Path(__file__).parent.parent.absolute()}/static/img/weather_graph{time_now}.png"
 
     weather_graph_directories = glob("../static/img/weather_graph*")
 
@@ -28,6 +29,7 @@ def plot_weather_graph(weather_data: dict, metric_type: str, city: str) -> str:
             os.remove(dir)
 
     fig.write_image(graph_url)
+    graph_url = f"static/img/weather_graph{time_now}.png"
 
     return graph_url
 
@@ -60,7 +62,7 @@ def plot_europe_temperature_map(european_weather: dict):
                 bbox=dict(boxstyle='round,pad=0.2', fc=temp_box_color))
     
     time_now = datetime.strftime(datetime.now(), "%Y-%m-%d")
-    map_url = f"static/img/european_map{time_now}.png"
+    map_url = f"{Path(__file__).parent.parent.absolute()}/static/img/european_map{time_now}.png"
 
     weather_graph_directories = glob("../static/img/european_map*")
 
@@ -69,5 +71,6 @@ def plot_europe_temperature_map(european_weather: dict):
             os.remove(dir)
 
     fig.savefig(map_url, bbox_inches='tight')
+    map_url = f"static/img/european_map{time_now}.png"
 
     return map_url

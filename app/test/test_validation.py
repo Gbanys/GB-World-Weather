@@ -1,5 +1,5 @@
 import unittest
-from main_validation import check_if_graph_data_is_valid
+from src.validation.main_validation import check_if_graph_data_is_valid
 
 class TestGraphValidation(unittest.TestCase):
 

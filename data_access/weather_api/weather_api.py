@@ -1,8 +1,9 @@
 import pandas as pd
 import requests
-from weather_event_names import day_weather_event_names, night_weather_event_names
-from european_city_names import EUROPEAN_CITIES
+from names.weather_event_names import day_weather_event_names, night_weather_event_names
+from names.european_city_names import EUROPEAN_CITIES
 import numpy as np
+from pathlib import Path
 
 def get_weather_type_for_each_row(row) -> str:
 
@@ -40,7 +41,7 @@ def get_weather_data_from_api(latitude: float, longitude: float, metrics: list[s
 
 def get_current_weather_from_european_cities(metrics: list[str]) -> dict:
     european_cities = EUROPEAN_CITIES
-    all_cities = pd.read_csv('worldcities.csv')
+    all_cities = pd.read_csv(f"{Path(__file__).parent.parent.absolute()}/worldcities.csv")
     european_cities_only = all_cities[all_cities['city_ascii'].isin(european_cities)].drop_duplicates(subset=['city_ascii'])
 
     european_weather = {}

@@ -1,6 +1,12 @@
-language: generic
+language: python
+python: "3.9"
 services:
   - docker
+
+script:
+  - export PYTHONPATH=$(pwd)
+  - pip install -r requirements.txt
+  - chmod 777 run_tests.sh && ./run_tests.sh
 
 deploy:
   provider: elasticbeanstalk
