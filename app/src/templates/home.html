@@ -1,34 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Weather forecast</title>
     <link href="{{ url_for('static', path='/css/layout.css') }}" rel="stylesheet" type="text/css"/>
 </head>
 <script>
-function keyCode(event) {
-  var x = event.keyCode;
-  if (x == 27) {
-    for(let modal_id = 1; modal_id <= 7; modal_id++){
-        document.getElementById("" + modal_id).style.display='none';
+    function keyCode(event) {
+        var x = event.keyCode;
+        if (x == 27) {
+        for(let modal_id = 1; modal_id <= 7; modal_id++){
+            document.getElementById("" + modal_id).style.display='none';
+        }
+        }
     }
-  }
-}
+    document.addEventListener("DOMContentLoaded", function () {
+        const scrollImages = document.querySelector(".seven_day_list_div");
+        const scrollLength = scrollImages.scrollWidth - scrollImages.clientWidth;
+        const leftButton = document.querySelector("#arrow_left");
+        const rightButton = document.querySelector("#arrow_right");
+
+        function checkScroll() {
+            const currentScroll = scrollImages.scrollLeft;
+            if (currentScroll === 0) {
+            leftButton.setAttribute("disabled", "true");
+            rightButton.removeAttribute("disabled");
+            } else if (currentScroll === scrollLength) {
+            rightButton.setAttribute("disabled", "true");
+            leftButton.removeAttribute("disabled");
+            } else {
+            leftButton.removeAttribute("disabled");
+            rightButton.removeAttribute("disabled");
+            }
+        }
+
+        scrollImages.addEventListener("scroll", checkScroll);
+        window.addEventListener("resize", checkScroll);
+        checkScroll();
+
+        function leftScroll() {
+            scrollImages.scrollBy({
+            left: -200,
+            behavior: "smooth"
+            });
+        }
+
+        function rightScroll() {
+            scrollImages.scrollBy({
+            left: 200,
+            behavior: "smooth"
+            });
+        }
+
+        leftButton.addEventListener("click", leftScroll);
+        rightButton.addEventListener("click", rightScroll);
+    });
 </script>
-<div class="home_title">
-    <h1 id="home_title" style="text-align:center; font-family: Arial; ">GB World Weather Forecast</h1>
-</div>
-<div id="sidediv_right" style="height:100%; background-image: url({{url_for('static', path='img/raining.gif')}})">
-</div>
-<div id="sidediv_left" style="height:100%; background-image: url({{url_for('static', path='img/raining.gif')}})">
-</div>
-<body onkeydown="keyCode(event)" style="background-image: url({{url_for('static', path='img/weather.jpg')}})">
+<body onkeydown="keyCode(event)" style="background-color: black;">
     {% for modal_id, full_date in zip(weather_modal_box_id, seven_day_forecast_full_dates) %}
     <div id="{{modal_id}}" class="main_modal_background" style="display: none; background-color: rgba(74, 73, 72, 0.4); position: fixed; z-index: 100; bottom: 0px; right: 0px; height: 150%; width: 100%;">
         <div id="myModal" class="modal" style="position: relative; top: 35%; height: 800px;">
             <div class="modal-content">
             <span class="close" style="cursor: pointer; font-size: 50px;" onclick="document.getElementById('{{modal_id}}').style.display='none'">&times;</span>
-            <h2 style="text-align: center; font-family: Arial;">Weather forecast breakdown in your area ({{full_date}})</h2>
+            <h2 style="text-align: center; font-family: Arial;">Weather forecast breakdown in London ({{full_date}})</h2>
             <div class="detailed_weather_info_bg1">
                 <div class="detailed_weather_info_bg2">
                     {% for time, temperature, precipitation, weather_type in zip(seven_day_forecast_details_time[modal_id - 1], seven_day_forecast_details_temperature[modal_id - 1], seven_day_forecast_details_precipitation[modal_id-1], seven_day_forecast_details_weather_type[modal_id - 1]) %}
@@ -46,71 +79,78 @@ function keyCode(event) {
         </div>
     </div>
     {% endfor %}
-    <div style="height: 120%; width: 105%; top: 60px; right: 10px; background-color: green; z-index: 1; white-space: nowrap; overflow: hidden; position: relative;">
-        <div class="top_navigation_bar">
-            <ul>
-                <li><a class="active" href="#home">Home</a></li>
+    <div class="top_navigation_bar">
+        <div style="float: left; width:50%;">
+            <ul id="menu_options">
+                <li><a class="active" href="{{ url_for('return_home_page')}}">Home</a></li>
                 <li><a href="#news">News</a></li>
-                <li><a href="{{ url_for('return_europe_weather_page')}}">World Weather</a></li>
+                <li><a href="{{ url_for('return_europe_weather_page')}}">Europe weather</a></li>
                 <li><a href="#about">About</a></li>
-              </ul>
+            </ul>
         </div>
-        <div style="height: 700px; width: 100%; background-color: #330033; position: relative; display: block;">
-            <div id="mySidenav" class="sidenav" style="vertical-align: top;">
-                <a href="{{ url_for('return_maps_page') }}">Maps</a>
-                <a href="{{ url_for('return_graphs_page') }}">Graphs</a>
-                <a href="#">RNNs</a>
-                <a href="#">Weather Alarm</a>
-            </div>
-            <div class="home_content" style="vertical-align: top;">
-                <h2 id="current_weather_title" style="font-family: Arial; color: white; display: inline-block; position: relative; bottom: 20px;">Weather forecast in your area today: <img style="height:50px; width:50px; position: relative; top: 10px;" src="static/img/pinwheel.gif"></h2>
-                <div class="main_content" style="display: flex; position: relative; bottom: 20px;">
-                    <div style="width: 40%; overflow: hidden;">
-                        <div class="current_location_weather">
-                            <h2 style="font-family: Arial;">{{current_location}}</h2>
-                        </div>
-                        <div class="current_weather_information">
-                            <div class="current_weather_image_box" onclick="document.getElementById('1').style.display='block'">
-                                <h3 style="text-align: center; font-family: Arial;">{{full_month}}</h3>
-                                <img class = "current_weather_image" src='static/img/{{current_weather_type}}.png'>
-                            </div>
-                            <div class="current_weather_details" onclick="document.getElementById('1').style.display='block'">
-                                <p style="font-size: 20px; text-align: center;"><strong>{{time}}</strong></p>
-                                <p style="font-size: 20px;">Temperature: {{temperature}}°C</p>
-                                <p style="font-size: 20px;">Cloudiness: {{cloudiness}}%</p>
-                                <p style="font-size: 17px;">Pressure: {{pressure}}hPa</p>
-                                <p style="font-size: 17px;">Humidity: {{humidity}}%</p>
-                                <p style="font-size: 17px;">Visibility: {{visibility}}m</p>
-                                <p style="font-size: 17px;">Wind speed: {{windspeed}}km/h</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="width: 60%; padding-right: 30px; position: relative; bottom: 70px;">
-                        <div class="seven_day_forecast">
-                            <h1 style="position: relative; display: inline-block; -webkit-animation: rainbow 5s infinite; text-shadow: 2px 2px 4px #000000;">7 day forecast in your area</h1>
-                            <img style="position: relative; display: inline-block; width: 50px; height: 50px; top: 10px;" src="static/img/shining_sun.gif">
-                        </div>
-                        <div class="seven_day_list_div">
-                            {% for min_temperature, max_temperature, half_month, weather_type_forecast, modal_id in forecast_info %}
-                            <div id="today" onclick="document.getElementById('{{modal_id}}').style.display='block'" title="Click to view more details">
-                                <div style="height: 40px;">
-                                    <h3 style="font-family: Arial; width: 50%; position: relative; display: inline-block">{{half_month}}</h3>
-                                    <img class="forecast_weather_image" src="static/img/{{weather_type_forecast}}.png">
-                                </div>
-                                <p>Max temp: <strong style="color: red">{{max_temperature}}°C</strong></p>
-                                <p>Min temp: <strong style="color: blue">{{min_temperature}}°C</strong></p>
-                            </div>
-                            {% endfor %}
-                        </div>
-                        <div style="text-align: center; padding-top: 20px;">
-                            <h4 style="color:white; font-family: Arial;">Subscribe for weather alerts:</h4>
-                            <p style="color: white;">Create your own customizable weather alerts and get free notifications.</p>
-                            <button style="color: white; background-color: red; border-radius: 50px; height: 50px; width: 120px;"><strong>Subscribe now!</strong></button>
-                        </div>
-                    </div>
+        <div style="float: right;">
+            <h3 style="position: relative; display: inline-block; bottom: 15px;">World Weather</h3>
+            <img src="static/img/menu_logo.gif" width="50px;" height="50px;" style="position: relative; display: inline-block;"></li>
+        </div>
+    </div>
+    <div class="header" style="background-image: url({{url_for('static', path='img/space_image.jpg')}})">
+        <div id="home_title"><p style="position: relative; transform: translate(0%,100%); font-size: 50px;">GB World Weather</p></div>
+        <h2 style="position: relative; top: 15px; text-align: center; font-family: Arial, Helvetica, sans-serif; color: white;">Provides a platform for those who want to explore the weather</h2>
+    </div>
+    <h2 style="color: white; font-family: Arial, Helvetica, sans-serif; text-align: center; padding-top: 10px;">7 day forecast in London</h3>
+    <div style="margin-right: auto; margin-left: auto; text-align: center;">
+        <div style="background-color: transparent; position: relative; display: inline-block; width: 100px; height: 50%; text-align: center; vertical-align: top;">
+            <i id="arrow_left" onclick="scrollRight()"></i>
+        </div>
+        <div class="seven_day_list_div">
+            {% for min_temperature, max_temperature, half_month, weather_type_forecast, modal_id in forecast_info %}
+            <div id="today" onclick="document.getElementById('{{modal_id}}').style.display='block'" title="Click to view more details">
+                <div style="height: 40px;">
+                    <h3 style="font-family: Arial; width: 50%; position: relative; display: block;">{{half_month}}</h3>
                 </div>
+                <div style="position: relative; margin-left: auto; margin-right: auto; text-align: center; padding-top: 10px; padding-bottom: 10px;">
+                    <img class="forecast_weather_image" src="static/img/{{weather_type_forecast}}.png">
+                </div>
+                <p style="font-family: Arial, Helvetica, sans-serif;">Max temp: <strong style="color: red">{{max_temperature}}°C</strong></p>
+                <p style="font-family: Arial, Helvetica, sans-serif;">Min temp: <strong style="color: blue">{{min_temperature}}°C</strong></p>
             </div>
+            {% endfor %}
+        </div>
+        <div style="background-color: transparent; position: relative; display: inline-block; width: 100px; height: 50%; text-align: center; vertical-align: top;">
+            <i id="arrow_right" onclick="scrollRight()"></i>
+        </div>
+    </div>
+    <div style="margin-left: auto; margin-right: auto; text-align: center; padding-top: 30px;">
+        <h2 style="color: white; font-family: Arial, Helvetica, sans-serif;">See more options</h2>
+    </div>
+    <div style="text-align: center; padding-top: 20px;">
+        <div id="graph_div" onclick="location.href='{{ url_for('return_graphs_page') }}';">
+            <h3 style="text-align: center; font-family: Arial, Helvetica, sans-serif;">Graphs</h3>
+            <img src="static/img/black_graph.jpg" height="200px;" width="400px;">
+            <ul style="text-align: left;">
+                <li>Create your own customizable graphs from all around the world.</li>
+                <li>Keep track of metrics such as temperature, humidity etc.</li>
+            </ul>
+        </div>
+        <div id="map_div" onclick="location.href='{{ url_for('return_maps_page') }}';">
+            <h3 style="text-align: center; font-family: Arial, Helvetica, sans-serif;">Maps</h3>
+            <img src="static/img/world_map_option.png" height="200px;" width="400px;">
+            <ul style="text-align: left; position: relative;">
+                <li>Observe maps created by NASA.</li>
+                <li>Observe changes in climate and weather metrics from all around the world.</li>
+            </ul>
         </div>
     </div>
 </body>
+<footer style="background-color: #330033; color: white; text-align: center; margin-top: 50px;">
+    <p style="text-align: center; padding-top: 10px;">Website created by Giedrius (2023) and running on AWS Elastic Beanstalk.</p>
+    <br>
+    <div>
+        <img src="static/img/aws_logo.jpg" style="position: relative; display: inline-block; height: 50px; width: 50px; margin-right: 50px;">
+        <img src="static/img/travis_ci.jpg" style="position: relative; display: inline-block; height: 50px; width: 50px; margin-right: 50px;">
+        <img src="static/img/vscode_logo.png" style="position: relative; display: inline-block; height: 50px; width: 50px; margin-right: 50px;">
+        <img src="static/img/python_logo.jpg" style="position: relative; display: inline-block; height: 50px; width: 50px; margin-right: 50px;">
+    </div>
+    <p style="text-align: center; padding-top: 20px; padding-bottom: 20px;">Further credit goes to AWS and Travis CI for helping us to deploy this webapp.</p>
+</footer>
 </html>

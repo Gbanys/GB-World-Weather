@@ -28,8 +28,8 @@ templates = Jinja2Templates(directory=str(Path(BASE_DIR, 'templates')))
 @app.get("/")
 async def return_home_page(request: Request):
 
-    details_from_ip_address = get_details_from_ip_address()
-    weather_data = get_weather_data_from_api(details_from_ip_address['Lat'], details_from_ip_address['Lng'], ['temperature_2m','windspeed_10m','relativehumidity_2m','pressure_msl','cloudcover','visibility', 'precipitation_probability', 'weather_code', 'is_day'])
+    # details_from_ip_address = get_details_from_ip_address()
+    weather_data = get_weather_data_from_api(51.5072, -0.1275, ['temperature_2m','windspeed_10m','relativehumidity_2m','pressure_msl','cloudcover','visibility', 'precipitation_probability', 'weather_code', 'is_day'])
 
     weather_dataframe = pd.DataFrame(
         {'datetime': weather_data['hourly']['time'], 
@@ -64,7 +64,7 @@ async def return_home_page(request: Request):
         "home.html", 
         context={
             "request": request, 
-            "current_location": details_from_ip_address['Location'],
+            # "current_location": details_from_ip_address['Location'],
             "full_month" : parseFullMonth(current_date),
             "time": weather_data['current']['time'].split("T")[1],
             "temperature": weather_data['current']['temperature_2m'],
@@ -95,11 +95,11 @@ async def return_graphs_page(request: Request):
 
     cities, cities_lng, cities_lat = get_cities_in_json_format()
 
-    details_from_ip_address = get_details_from_ip_address()
-    city = details_from_ip_address['Location'].split(",")[0]
+    # details_from_ip_address = get_details_from_ip_address()
+    # city = details_from_ip_address['Location'].split(",")[0]
 
-    weather_data = get_weather_data_from_api(details_from_ip_address['Lat'], details_from_ip_address['Lng'], ['temperature_2m'])
-    graph_url = plot_weather_graph(weather_data, 'temperature_2m', city)
+    weather_data = get_weather_data_from_api(51.5072, -0.1275, ['temperature_2m'])
+    graph_url = plot_weather_graph(weather_data, 'temperature_2m', 'London')
 
     return templates.TemplateResponse("graphs.html", context={
         'request' : request,

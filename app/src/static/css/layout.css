@@ -1,164 +1,72 @@
-.sidenav {
-    height: 100%; /* 100% Full-height */
-    width: 15%; /* 0 width - change this with JavaScript */
-    position: relative; /* Stay in place */
-    display: inline-block;
-    z-index: 1; /* Stay on top */
-    background-color: #330033;
-    overflow-x: hidden; /* Disable horizontal scroll */
-  }
-
-  #sidediv_right {
-    height: 59%; /* 100% Full-height */
-    width: 400px; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Stay on top */
-    bottom: 0; /* Stay at the top */
-    right: 0;
-    background-color: #111; /* Black*/
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 60px from the top */
-    border: 1px solid white;
-  }
-
-  #sidediv_left {
-    height: 59%; /* 100% Full-height */
-    width: 400px; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Stay on top */
-    bottom: 0; /* Stay at the top */
-    left: 0;
-    background-color: #111; /* Black*/
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 60px from the top */
-    border: 1px solid white;
-  }
-  
-  /* The navigation menu links */
-  .sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: white;
-    display: block;
-    border: 1px solid white;
-    font-family: 'Arial';
-  }
-  
-  /* When you mouse over the navigation links, change their color */
-  .sidenav a:hover {
-    color: #d147a3;
-  }
-
-  .home_content{
-    height: 100%; /* 100% Full-height */
-    width: 85%; /* 0 width - change this with JavaScript */
-    position: relative; /* Stay in place */
-    display: inline-block;
-    z-index: 1; /* Stay on top */
-    background-color: #111; /* Black*/
-    padding-left: 25px;
-    padding-top: 40px;
-    border: 1px solid white;
-  }
-
-  .top_navigation_bar{
-    height: 120%; /* 100% Full-height */
-    width: 100%; /* 0 width - change this with JavaScript */
-    position: relative; /* Stay in place */
-    display: block;
-    z-index: 1; /* Stay on top */
-    color: white;
-    font-family: 'Arial';
-  }
-
-  body{
-    width:100%;
-    height:100%;
-    background-repeat: no-repeat;
-    background-size: cover;
-    overflow: hidden;
-  }
-
-  ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 10px;
-    overflow: hidden;
-    background-color: #330033
-  }
-  
-  li {
-    position: relative;
-    top: 0;
-    left: 30%;
-    float: left;
-    transform: none;
-    border-right: 1px solid #bbb;
-    border-left: 1px solid #bbb;
-    color: white;
-  }
-  
-  li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 45px;
-    text-decoration: none;
-  }
-  
-  li a:hover {
-    background-color: #111;
-    color:#d147a3;
-  }
-
-.current_location_weather{
-  border-radius: 5px;
-  border: 1px black solid;
-  width: 100%;
-  text-align: center;
+.top_navigation_bar{
+  height: 10%; /* 100% Full-height */
+  width: 100%; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 2; /* Stay on top */
+  top: 0; /* Stay at the top */
+  right: 0;
+  padding-left: 25px;
+  padding-top: 20px;
   color: white;
+  background-color: green;
+  font-family: 'Arial';
   background-color: #330033;
+  border-bottom: 2px white solid;
+  overflow: hidden;
 }
 
-.current_weather_information{
-  border-radius: 5px;
-  background-color: white;
-  border: 1px black solid;
+#menu_options{
+  position: relative;
+  display: inline-block;
+}
+
+#menu_options li{
+  padding-right: 40px;
+  position: relative;
+  display: inline-block;
+  color: white;
+}
+
+#menu_options li a{
+  text-decoration: none;
+  color: white;
+}
+
+.header{
   width: 100%;
-  height: 300px;
+  height: 500px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 
-.current_weather_image_box{
+#home_title{
+  background-color: transparent;
   position: relative;
-  width: 51%;
-  height: 100%;
-  bottom: 0;
-  display: inline-block;
-  overflow: hidden;
+  width: 50%;
+  height: 50%;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  transform: translate(0%,50%);
 }
 
-.current_weather_image{
+.seven_day_list_div{
   position: relative;
-  left: 10%;
-  width: 200px;
-  height: 200px;
   display: inline-block;
-  cursor: pointer;
-}
-
-.current_weather_details{
-  position: relative;
-  border-left: 1px black solid;
-  width: 40%;
-  display: inline-block;
-  height: 100%;
-  cursor: pointer;
-  overflow: hidden;
-}
-
-p{
-  font-family: Arial;
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+  height: 50%;
+  background-color: gray;
+  border-radius: 25px;
+  overflow: auto;
+  white-space: nowrap;
+  direction: ltr;
 }
 
 .seven_day_forecast{
@@ -170,18 +78,6 @@ p{
   margin-right: auto;
   font-family: "Arial";
   text-align: center;
-}
-
-.seven_day_list_div{
-  margin-left: auto;
-  margin-right: auto;
-  width: 75%;
-  height: 50%;
-  background-color: #006080;
-  border-radius: 25px;
-  overflow: auto;
-  white-space: nowrap;
-  direction: ltr;
 }
 
 .seven_day_weather_details{
@@ -197,40 +93,19 @@ p{
   cursor: pointer;
   background-color: white;
   border: 1px solid;
-  height: 70%;
+  height: 80%;
   position: relative;
-  top: 20px;
+  top: 30px;
   width: 200px;
   display: inline-block;
+  vertical-align: middle;
 }
 
 #today:hover{
   border: 2px solid cyan;
   transform: scale(1.1); 
-  z-index: 100;
+  z-index: 1;
   overflow: visible;
-}
-
-.forecast_weather_image{
-  height: 60px; 
-  width: 60px;
-  position: relative;
-  display: inline-block;
-  float: right;
-}
-
-#home_title{
-  color: white;
-  position: relative;
-  top: 10px;
-}
-
-.home_title{
-  background-color:#330033;
-  color: white;
-  height: 100px;
-  border: 1px solid white;
-  top: 0px;
 }
 
 .modal-content {
@@ -263,41 +138,106 @@ p{
   left: 5%;
 }
 
-@-webkit-keyframes rainbow{
-  0%{color: orange;}  
-  10%{color: purple;} 
-  20%{color: red;}
-  30%{color: CadetBlue;}
-  40%{color: yellow;}
-  50%{color: coral;}
-  60%{color: green;}
-  70%{color: cyan;}
-  80%{color: DeepPink;}
-  90%{color: DodgerBlue;}
-  100%{color: orange;}
+p{
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-/* width */
-::-webkit-scrollbar {
-  width: 20px;
-  background-color: white;
+ul{
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey; 
-  border-radius: 10px;
-}
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: cyan; 
-  border-radius: 10px;
-  position: absolute;
-  left: 0px;
+#map_div:hover{
+  cursor: pointer;
+  border: 2px solid cyan;
 }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: rgb(14, 126, 126); 
+#graph_div:hover{
+  cursor: pointer;
+  border: 2px solid cyan;
+}
+
+.main_modal_background{
+  z-index: 3;
+}
+
+#map_div{
+  position: relative; 
+  display: inline-block; 
+  color: white; 
+  vertical-align: top; 
+  border: 1px solid white; 
+  border-radius: 15px; 
+  width: 500px; 
+  margin-left: 30px; 
+  height: 400px;
+}
+
+#graph_div{
+  position: relative; 
+  display: inline-block; 
+  color: white; 
+  vertical-align: top; 
+  border: 1px solid white; 
+  border-radius: 15px; 
+  width: 500px; 
+  margin-right: 30px; 
+  height: 400px;
+}
+
+#arrow_right{
+  border: solid #8e018e;
+  border-width: 0 3px 3px 0;
+  position: relative;
+  display: inline-block;
+  padding: 3px;
+  width: 50px;
+  height: 50px;
+  top: 45%;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  cursor: pointer;
+}
+
+#arrow_right:hover{
+  border: solid #d804d8;
+  border-width: 0 3px 3px 0;
+  position: relative;
+  display: inline-block;
+  padding: 3px;
+  width: 50px;
+  height: 50px;
+  top: 45%;
+  left: 5px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  cursor: pointer;
+}
+
+#arrow_left {
+  border: solid #8e018e;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  position: relative;
+  padding: 3px;
+  width: 50px;
+  height: 50px;
+  top: 45%;
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+  cursor: pointer;
+}
+
+#arrow_left:hover {
+  border: solid #d804d8;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  position: relative;
+  padding: 3px;
+  width: 50px;
+  height: 50px;
+  top: 45%;
+  right: 5px;
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+  cursor: pointer;
 }
